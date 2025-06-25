@@ -1,0 +1,18 @@
+{
+  "title": "Trip to Istanbul",
+  "description": "5-day stay with guided tours",
+  "destination": "Istanbul, Turkey",
+  "departureLocation": "Algiers",
+  "departureDate": "2025-07-10",
+  "returnDate": "2025-07-15",
+  "durationDays": 5,
+  "pricePerPerson": 75000,
+  "availablePlaces": 20,
+  "transportType": "Plane",
+  "hotelName": "Istanbul Palace Hotel",
+  "hotelStars": 4,
+  "includesVisa": true,
+  "status": "PUBLISHED",
+  "createdAt": "2025-06-25T14:00:00",
+  "updatedAt": "2025-06-25T14:00:00"
+}
