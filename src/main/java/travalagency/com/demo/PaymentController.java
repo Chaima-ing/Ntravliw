@@ -27,6 +27,12 @@ public class PaymentController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/receipt")
+    public ResponseEntity<String> getReceipt(@RequestParam String orderNumber) {
+        String response = paymentService.getReceipt(orderNumber);
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/initiate-and-show")
     public ResponseEntity<String> initiateAndShowPayment() {
         String initiateResponse = paymentService.initiatePayment();
@@ -41,6 +47,22 @@ public class PaymentController {
             return ResponseEntity.badRequest().body("Error parsing the response: " + e.getMessage());
         }
     }
-}
 
+    @PostMapping("/initiate-show-receipt")
+    public ResponseEntity<String> initiateShowAndGetReceipt() {
+        String initiateResponse = paymentService.initiatePayment();
+
+        try {
+            JsonNode rootNode = objectMapper.readTree(initiateResponse);
+            String orderNumber = rootNode.path("data").path("id").asText();
+
+            String showResponse = paymentService.showTransaction(orderNumber);
+            String receiptResponse = paymentService.getReceipt(orderNumber);
+
+            return ResponseEntity.ok("Show Response: " + showResponse + "\nReceipt: " + receiptResponse);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error processing the request: " + e.getMessage());
+        }
+    }
+}
 

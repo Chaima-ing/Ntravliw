@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class PaymentService {
@@ -50,6 +48,21 @@ public class PaymentService {
 
         return response.getBody();
     }
-}
 
+    public String getReceipt(String orderNumber) {
+        String url = "https://epay.guiddini.dz/api/payment/receipt?order_number=" + orderNumber;
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Accept", "application/json");
+        headers.set("x-app-key", appKey);
+        headers.set("x-app-secret", appSecret);
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+
+        return response.getBody();
+    }
+}
 
