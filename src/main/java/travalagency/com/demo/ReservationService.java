@@ -18,12 +18,18 @@ public class ReservationService {
         this.clientRepository = clientRepository;
     }
 
+    @Transactional
     public Reservation saveReservation(ReservationRequest request) {
         Trip trip = tripRepository.findById(request.getTripId())
                 .orElseThrow(() -> new IllegalArgumentException("Trip not found"));
 
         Client client = clientRepository.findById(request.getClientId())
                 .orElseThrow(() -> new IllegalArgumentException("Client not found"));
+
+        // Check if there are enough available places
+        if (trip.getAvailablePlaces() < request.getNumberOfPersons()) {
+            throw new IllegalArgumentException("Not enough available places for this trip");
+        }
 
         double totalPrice = trip.getPricePerPerson() * request.getNumberOfPersons();
 
@@ -35,7 +41,14 @@ public class ReservationService {
         reservation.setTotalPrice(totalPrice);
         reservation.setStatus("PENDING");
 
-        return reservationRepository.save(reservation);
+        // Save the reservation
+        reservation = reservationRepository.save(reservation);
+
+        // Update the available places in the trip
+        trip.setAvailablePlaces(trip.getAvailablePlaces() - request.getNumberOfPersons());
+        tripRepository.save(trip);
+
+        return reservation;
     }
 
     @Transactional
