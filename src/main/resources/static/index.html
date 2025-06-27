@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizon Travel | Explore the World</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Global Styles */
+        :root {
+            --tropical-teal: #008080;
+            --sand-white: #F5F1E6;
+            --sunset-coral: #FF7E5D;
+            --palm-green: #43A047;
+            --sky-blue: #4FC3F7;
+            --coral-pink: #FF7043;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--sand-white);
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: var(--tropical-teal);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            background-color: #006666;
+            transform: translateY(-2px);
+        }
+        
+        .btn-orange {
+            background-color: var(--sunset-coral);
+        }
+        
+        .btn-orange:hover {
+            background-color: #e6704d;
+        }
+        
+        .btn-blue {
+            background-color: var(--sky-blue);
+        }
+        
+        .btn-blue:hover {
+            background-color: #3db0e5;
+        }
+        
+        section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            color: #333;
+            font-size: 2.5rem;
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--tropical-teal);
+            margin: 15px auto 0;
+        }
+        
+        /* Navigation */
+        header {
+            background-color: var(--tropical-teal);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--sky-blue);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--sky-blue);
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: white;
+            margin-top: 0;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        
+        .search-box {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .search-input {
+            flex: 1 1 200px;
+            margin: 10px;
+        }
+        
+        .search-input label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+            text-align: left;
+        }
+        
+        .search-input input, 
+        .search-input select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .search-btn {
+            flex: 1 1 100%;
+            margin-top: 20px;
+        }
+        
+        /* Popular Destinations */
+        .destinations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .destination-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .destination-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .destination-img {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .destination-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .eco-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--palm-green);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .destination-card:hover .destination-img img {
+            transform: scale(1.1);
+        }
+        
+        .destination-info {
+            padding: 20px;
+        }
+        
+        .destination-info h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .destination-price {
+            color: var(--sunset-coral);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        /* Featured Tours */
+        .tours-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .tour-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tour-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .tour-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .tour-details {
+            padding: 20px;
+        }
+        
+        .tour-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .tour-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: #666;
+        }
+        
+        .tour-price {
+            color: var(--sunset-coral);
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin: 15px 0;
+        }
+        
+        /* Special Offer Banner */
+        .special-offer {
+            background-color: var(--coral-pink);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+        
+        /* Why Choose Us */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+        
+        .feature {
+            padding: 30px 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--tropical-teal);
+            margin-bottom: 20px;
+        }
+        
+        .feature h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            background-color: white;
+            padding: 50px 0;
+        }
+        
+        .testimonials-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .testimonial {
+            background-color: var(--sand-white);
+            padding: 30px;
+            border-radius: 10px;
+            position: relative;
+        }
+        
+        .testimonial:before {
+            content: '"';
+            font-size: 5rem;
+            color: rgba(0, 128, 128, 0.1);
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        
+        .testimonial-text {
+            margin-bottom: 20px;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+        
+        .author-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .author-info h4 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .author-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--tropical-teal);
+            color: white;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--sky-blue);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--sky-blue);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--sky-blue);
+            transform: translateY(-3px);
+        }
+        
+        .newsletter input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        /* Filter Section */
+        .filter-section {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+        }
+        
+        .filter-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .filter-group {
+            flex: 1 1 200px;
+        }
+        
+        .filter-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .filter-group select, 
+        .filter-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .filter-btn {
+            flex: 0 0 auto;
+            align-self: flex-end;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            section {
+                padding: 60px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Horizon<span>Travel</span></a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#destinations">Destinations</a></li>
+                    <li><a href="#tours">Tours</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Discover Your Next Adventure</h1>
+                <p>Experience the world's most breathtaking destinations with our expertly curated travel packages.</p>
+                <form class="search-box">
+                    <div class="search-input">
+                        <label for="destination">Destination</label>
+                        <input type="text" id="destination" placeholder="Where to?">
+                    </div>
+                    <div class="search-input">
+                        <label for="check-in">Check In</label>
+                        <input type="date" id="check-in">
+                    </div>
+                    <div class="search-input">
+                        <label for="check-out">Check Out</label>
+                        <input type="date" id="check-out">
+                    </div>
+                    <div class="search-input">
+                        <label for="travelers">Travelers</label>
+                        <select id="travelers">
+                            <option value="1">1 Traveler</option>
+                            <option value="2">2 Travelers</option>
+                            <option value="3">3 Travelers</option>
+                            <option value="4">4 Travelers</option>
+                            <option value="5+">5+ Travelers</option>
+                        </select>
+                    </div>
+                    <div class="search-btn">
+                        <button type="submit" class="btn btn-orange">Search Tours</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Destinations -->
+    <section id="destinations">
+        <div class="container">
+            <h2 class="section-title">Popular Destinations</h2>
+            <div class="filter-section">
+                <form class="filter-form">
+                    <div class="filter-group">
+                        <label for="filter-destination">Destination</label>
+                        <select id="filter-destination">
+                            <option value="all">All Destinations</option>
+                            <option value="europe">Europe</option>
+                            <option value="asia">Asia</option>
+                            <option value="america">America</option>
+                            <option value="africa">Africa</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-price">Price Range</label>
+                        <select id="filter-price">
+                            <option value="all">Any Price</option>
+                            <option value="0-1000">Under $1000</option>
+                            <option value="1000-2000">$1000 - $2000</option>
+                            <option value="2000+">Over $2000</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-type">Travel Type</label>
+                        <select id="filter-type">
+                            <option value="all">All Types</option>
+                            <option value="beach">Beach</option>
+                            <option value="adventure">Adventure</option>
+                            <option value="cultural">Cultural</option>
+                            <option value="eco">Eco-Tourism</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="sort-by">Sort By</label>
+                        <select id="sort-by">
+                            <option value="popular">Most Popular</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="rating">Highest Rating</option>
+                        </select>
+                    </div>
+                    <div class="filter-btn">
+                        <button type="button" class="btn">Filter</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="special-offer">
+                <i class="fas fa-fire"></i> FLASH SALE: Book any European destination by Friday and get 15% off!
+            </div>
+            
+            <div class="destinations-grid">
+                <div class="destination-card">
+                    <div class="destination-img">
+                        <img src="https://images.unsplash.com/photo-1503917988258-f87a78e3c995?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Bali, Indonesia">
+                        <div class="eco-badge">Eco-Friendly</div>
+                    </div>
+                    <div class="destination-info">
+                        <h3>Bali, Indonesia</h3>
+                        <p>Experience tropical paradise with stunning beaches and rich culture.</p>
+                        <div class="destination-price">From $899</div>
+                        <a href="#" class="btn">Explore</a>
+                    </div>
+                </div>
+                <div class="destination-card">
+                    <div class="destination-img">
+                        <img src="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Paris, France">
+                    </div>
+                    <div class="destination-info">
+                        <h3>Paris, France</h3>
+                        <p>The city of love with iconic landmarks and exquisite cuisine.</p>
+                        <div class="destination-price">From $1299</div>
+                        <a href="#" class="btn">Explore</a>
+                    </div>
+                </div>
+                <div class="destination-card">
+                    <div class="destination-img">
+                        <img src="https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Tokyo, Japan">
+                    </div>
+                    <div class="destination-info">
+                        <h3>Tokyo, Japan</h3>
+                        <p>Where ancient tradition meets cutting-edge technology.</p>
+                        <div class="destination-price">From $1499</div>
+                        <a href="#" class="btn">Explore</a>
+                    </div>
+                </div>
+                <div class="destination-card">
+                    <div class="destination-img">
+                        <img src="https://images.unsplash.com/photo-1518391846015-55a9cc003b25?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="New York, USA">
+                    </div>
+                    <div class="destination-info">
+                        <h3>New York, USA</h3>
+                        <p>The city that never sleeps with endless attractions.</p>
+                        <div class="destination-price">From $1099</div>
+                        <a href="#" class="btn">Explore</a>
+                    </div>
+                </div>
+                <div class="destination-card">
+                    <div class="destination-img">
+                        <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Rome, Italy">
+                    </div>
+                    <div class="destination-info">
+                        <h3>Rome, Italy</h3>
+                        <p>Walk through history in this eternal city of ancient wonders.</p>
+                        <div class="destination-price">From $1199</div>
+                        <a href="#" class="btn">Explore</a>
+                    </div>
+                </div>
+                <div class="destination-card">
+                    <div class="destination-img">
+                        <img src="https://images.unsplash.com/photo-1538970272646-f61fabb3bfdf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Cape Town, South Africa">
+                        <div class="eco-badge">Eco-Friendly</div>
+                    </div>
+                    <div class="destination-info">
+                        <h3>Cape Town, South Africa</h3>
+                        <p>Breathtaking landscapes and diverse wildlife experiences.</p>
+                        <div class="destination-price">From $1599</div>
+                        <a href="#" class="btn">Explore</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Tours -->
+    <section id="tours">
+        <div class="container">
+            <h2 class="section-title">Featured Tours</h2>
+            <div class="tours-container">
+                <div class="tour-card">
+                    <div class="tour-img">
+                        <img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="European Adventure">
+                    </div>
+                    <div class="tour-details">
+                        <h3 class="tour-title">European Adventure</h3>
+                        <div class="tour-meta">
+                            <span><i class="fas fa-calendar-alt"></i> 14 Days</span>
+                            <span><i class="fas fa-map-marker-alt"></i> 8 Countries</span>
+                        </div>
+                        <p>Explore the best of Europe with this comprehensive tour covering major cities and hidden gems.</p>
+                        <div class="tour-price">$2,499 <span class="original-price">$2,999</span></div>
+                        <a href="#" class="btn btn-orange">Book Now</a>
+                    </div>
+                </div>
+                <div class="tour-card">
+                    <div class="tour-img">
+                        <img src="https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Asian Discovery">
+                    </div>
+                    <div class="tour-details">
+                        <h3 class="tour-title">Asian Discovery</h3>
+                        <div class="tour-meta">
+                            <span><i class="fas fa-calendar-alt"></i> 21 Days</span>
+                            <span><i class="fas fa-map-marker-alt"></i> 5 Countries</span>
+                        </div>
+                        <p>Immerse yourself in the diverse cultures and landscapes of Asia's most fascinating destinations.</p>
+                        <div class="tour-price">$3,199</div>
+                        <a href="#" class="btn btn-orange">Book Now</a>
+                    </div>
+                </div>
+                <div class="tour-card">
+                    <div class="tour-img">
+                        <img src="https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Caribbean Cruise">
+                    </div>
+                    <div class="tour-details">
+                        <h3 class="tour-title">Caribbean Cruise</h3>
+                        <div class="tour-meta">
+                            <span><i class="fas fa-calendar-alt"></i> 7 Days</span>
+                            <span><i class="fas fa-map-marker-alt"></i> 5 Islands</span>
+                        </div>
+                        <p>Relax and unwind as you island hop through the most beautiful Caribbean destinations.</p>
+                        <div class="tour-price">$1,799</div>
+                        <a href="#" class="btn btn-orange">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">Why Choose Us</h2>
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                    <h3>Best Price Guarantee</h3>
+                    <p>We guarantee the best prices for all our tours. Found a better deal? We'll match it!</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>Experienced Guides</h3>
+                    <p>Our knowledgeable guides will enhance your travel experience with local insights.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>24/7 Support</h3>
+                    <p>Our dedicated support team is available around the clock to assist you.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3>Sustainable Travel</h3>
+                    <p>We're committed to eco-friendly tourism that supports local communities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Our Travelers Say</h2>
+            <div class="testimonials-container">
+                <div class="testimonial">
+                    <div class="testimonial-text">
+                        <p>The European Adventure tour exceeded all our expectations. The itinerary was perfectly balanced between sightseeing and free time. Our guide was incredibly knowledgeable and made the experience unforgettable.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-img">
+                            <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Sarah Johnson">
+                        </div>
+                        <div class="author-info">
+                            <h4>Sarah Johnson</h4>
+                            <p>European Adventure</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-text">
+                        <p>Booking our honeymoon through Horizon Travel was the best decision we made. They took care of every detail and even surprised us with room upgrades at several hotels. The level of service was exceptional.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-img">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Chen">
+                        </div>
+                        <div class="author-info">
+                            <h4>Michael & Lisa Chen</h4>
+                            <p>Bali Honeymoon Package</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-text">
+                        <p>As a solo traveler, I was nervous about my trip to Japan, but Horizon Travel made everything so easy. Their local guides were fantastic, and I met some wonderful people on the tour. Can't wait to book my next adventure!</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-img">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Emily Rodriguez">
+                        </div>
+                        <div class="author-info">
+                            <h4>Emily Rodriguez</h4>
+                            <p>Japan Cultural Journey</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>About Horizon Travel</h3>
+                    <p>We are passionate about creating unforgettable travel experiences while supporting sustainable tourism practices around the world.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="#destinations">Destinations</a></li>
+                        <li><a href="#tours">Tours</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Info</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Travel Street, Suite 100, Miami, FL 33101</li>
+                        <li><i class="fas fa-phone"></i> +1 (800) 555-1234</li>
+                        <li><i class="fas fa-envelope"></i> info@horizontravel.com</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to our newsletter for travel tips, special offers, and destination inspiration.</p>
+                    <form class="newsletter">
+                        <input type="email" placeholder="Your Email Address">
+                        <button type="submit" class="btn btn-blue">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Horizon Travel. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple filter functionality demonstration
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterBtn = document.querySelector('.filter-btn button');
+            
+            filterBtn.addEventListener('click', function() {
+                const destinationFilter = document.getElementById('filter-destination').value;
+                const priceFilter = document.getElementById('filter-price').value;
+                const typeFilter = document.getElementById('filter-type').value;
+                const sortBy = document.getElementById('sort-by').value;
+                
+                // In a real implementation, this would filter and sort the destination cards
+                alert(`Filters applied:\nDestination: ${destinationFilter}\nPrice: ${priceFilter}\nType: ${typeFilter}\nSort By: ${sortBy}\n\nIn a complete implementation, this would filter and sort the destination cards accordingly.`);
+            });
+            
+            // Hero search form submission
+            const searchForm = document.querySelector('.search-box');
+            searchForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const destination = document.getElementById('destination').value;
+                const checkIn = document.getElementById('check-in').value;
+                const checkOut = document.getElementById('check-out').value;
+                const travelers = document.getElementById('travelers').value;
+                
+                // In a real implementation, this would redirect to search results
+                alert(`Searching for:\nDestination: ${destination}\nDates: ${checkIn} to ${checkOut}\nTravelers: ${travelers}`);
+            });
+        });
+    </script>
+</body>
+</html>
