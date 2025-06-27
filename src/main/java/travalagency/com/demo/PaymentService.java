@@ -14,7 +14,7 @@ public class PaymentService {
     @Value("${guiddini.app-secret}")
     private String appSecret;
 
-    public String initiatePayment() {
+    public String initiatePayment(double amount) {
         String url = "https://epay.guiddini.dz/api/payment/initiate";
 
         HttpHeaders headers = new HttpHeaders();
@@ -23,7 +23,7 @@ public class PaymentService {
         headers.set("x-app-key", appKey);
         headers.set("x-app-secret", appSecret);
 
-        String requestBody = "{\"amount\": 1000}";
+        String requestBody = "{\"amount\": " + amount + "}";
 
         HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
 
@@ -64,5 +64,23 @@ public class PaymentService {
 
         return response.getBody();
     }
-}
 
+    public String sendEmailReceipt(String orderNumber, String email) {
+        String url = "https://epay.guiddini.dz/api/payment/email";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Accept", "application/json");
+        headers.set("x-app-key", appKey);
+        headers.set("x-app-secret", appSecret);
+
+        String requestBody = "{\"order_number\": \"" + orderNumber + "\", \"email\": \"" + email + "\"}";
+
+        HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
+
+        return response.getBody();
+    }
+}

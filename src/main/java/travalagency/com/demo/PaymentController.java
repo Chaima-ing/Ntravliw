@@ -16,8 +16,8 @@ public class PaymentController {
     private ObjectMapper objectMapper;
 
     @PostMapping("/initiate")
-    public ResponseEntity<String> initiatePayment() {
-        String response = paymentService.initiatePayment();
+    public ResponseEntity<String> initiatePayment(@RequestParam double amount) {
+        String response = paymentService.initiatePayment(amount);
         return ResponseEntity.ok(response);
     }
 
@@ -33,24 +33,9 @@ public class PaymentController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/initiate-and-show")
-    public ResponseEntity<String> initiateAndShowPayment() {
-        String initiateResponse = paymentService.initiatePayment();
-
-        try {
-            JsonNode rootNode = objectMapper.readTree(initiateResponse);
-            String orderNumber = rootNode.path("data").path("id").asText();
-
-            String showResponse = paymentService.showTransaction(orderNumber);
-            return ResponseEntity.ok(showResponse);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error parsing the response: " + e.getMessage());
-        }
-    }
-
     @PostMapping("/initiate-show-receipt")
-    public ResponseEntity<String> initiateShowAndGetReceipt() {
-        String initiateResponse = paymentService.initiatePayment();
+    public ResponseEntity<String> initiateShowAndGetReceipt(@RequestParam double amount) {
+        String initiateResponse = paymentService.initiatePayment(amount);
 
         try {
             JsonNode rootNode = objectMapper.readTree(initiateResponse);
@@ -64,5 +49,28 @@ public class PaymentController {
             return ResponseEntity.badRequest().body("Error processing the request: " + e.getMessage());
         }
     }
+
+    @PostMapping("/initiate-show-receipt-sendEmail")
+    public ResponseEntity<String> initiateShowReceiptAndSendEmail(@RequestParam double amount, @RequestParam String email) {
+        String initiateResponse = paymentService.initiatePayment(amount);
+
+        try {
+            JsonNode rootNode = objectMapper.readTree(initiateResponse);
+            String orderNumber = rootNode.path("data").path("id").asText();
+
+            String showResponse = paymentService.showTransaction(orderNumber);
+            String receiptResponse = paymentService.getReceipt(orderNumber);
+            String emailResponse = paymentService.sendEmailReceipt(orderNumber, email);
+
+            return ResponseEntity.ok(
+                "Show Response: " + showResponse +
+                "\nReceipt: " + receiptResponse +
+                "\nEmail Response: " + emailResponse
+            );
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error processing the request: " + e.getMessage());
+        }
+    }
 }
+
 
