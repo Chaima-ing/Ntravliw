@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Travel Agency</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url('https://images.unsplash.com/photo-1508672019048-805c876b67e2?ixlib=rb-4.1.0&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+    }
+
+    .login-container {
+      width: 420px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .logo {
+      font-size: 32px;
+      font-weight: 700;
+      color: #333333;
+      margin-bottom: 10px;
+    }
+
+    .logo span {
+      color: #8a7f6d;
+    }
+
+    .login-title {
+      font-size: 24px;
+      color: #333333;
+      margin-bottom: 10px;
+    }
+
+    .login-subtitle {
+      color: #666666;
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333333;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    .input-field {
+      position: relative;
+    }
+
+    .input-field i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #8a7f6d;
+    }
+
+    .input-field input {
+      width: 100%;
+      padding: 12px 15px 12px 45px;
+      border: 1px solid #dddddd;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+
+    .input-field input:focus {
+      outline: none;
+      border-color: #8a7f6d;
+      box-shadow: 0 0 0 3px rgba(138, 127, 109, 0.1);
+    }
+
+    .remember-forgot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .remember-me input {
+      accent-color: #8a7f6d;
+    }
+
+    .forgot-password a {
+      color: #8a7f6d;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .forgot-password a:hover {
+      color: #7a6f5d;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: #8a7f6d;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-bottom: 20px;
+    }
+
+    .login-btn:hover {
+      background: #7a6f5d;
+      transform: translateY(-2px);
+    }
+
+    .register-link {
+      text-align: center;
+      font-size: 14px;
+      color: #666666;
+    }
+
+    .register-link a {
+      color: #8a7f6d;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .register-link a:hover {
+      color: #7a6f5d;
+    }
+
+    .error-message {
+      color: #d9534f;
+      font-size: 14px;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .loading {
+      position: relative;
+      pointer-events: none;
+    }
+
+    .loading::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .login-container {
+        width: 90%;
+        padding: 30px;
+      }
+
+      .logo {
+        font-size: 28px;
+      }
+
+      .login-title {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-header">
+      <div class="logo">Travel<span>y</span></div>
+      <h2 class="login-title">Admin Login</h2>
+      <p class="login-subtitle">Access your management dashboard</p>
+    </div>
+
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="id">IdAdmin</label>
+        <div class="input-field">
+          <i class="fas fa-user"></i>
+          <input type="text" id="id" name="id" placeholder="Enter your id" required>
+        </div>
+        <div class="error-message" id="id-error"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-field">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        </div>
+        <div class="error-message" id="password-error"></div>
+      </div>
+
+      <div class="remember-forgot">
+        <div class="remember-me">
+          <input type="checkbox" id="remember" name="remember">
+          <label for="remember">Remember me</label>
+        </div>
+        <div class="forgot-password">
+          <a href="#">Forgot password?</a>
+        </div>
+      </div>
+
+      <button type="submit" class="login-btn" id="loginButton">Login</button>
+      <div class="error-message" id="form-error"></div>
+
+      <div class="register-link">
+        Don't have an account? <a href="/register.html">Register here</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      console.log('strart');
+      // Reset errors
+      document.querySelectorAll('.error-message').forEach(function(el) {
+        el.style.display = 'none';
+        el.textContent = '';
+      });
+
+      // Get form values
+      const id = document.getElementById('id').value;
+      const password = document.getElementById('password').value;
+      const loginButton = document.getElementById('loginButton');
+
+      // Validate inputs
+      if (!id) {
+        document.getElementById('id-error').textContent = 'adminId is required';
+        document.getElementById('id-error').style.display = 'block';
+        return;
+      }
+
+      if (!password) {
+        document.getElementById('password-error').textContent = 'Password is required';
+        document.getElementById('password-error').style.display = 'block';
+        return;
+      }
+
+      try {
+        // Show loading state
+        loginButton.classList.add('loading');
+        loginButton.disabled = true;
+
+        console.log("id: ",id);
+        console.log("password: ",password);
+        // Send login request to the backend
+        const response = await fetch(`http://localhost:8080/login?id=${id}&password=${password}`);
+        
+        if (!response.ok) {
+          throw new Error('Login failed. Please check your credentials.');
+        }
+
+        const data = await response.text();
+
+        if (data === 'success') {
+          // Redirect to dashboard
+          window.location.href = 'admindash.html';
+        } else {
+          throw new Error('Login failed. Please check your credentials.');
+        }
+
+      } catch (error) {
+        console.error('Login error:', error);
+        document.getElementById('form-error').textContent = error.message;
+        document.getElementById('form-error').style.display = 'block';
+      } finally {
+        loginButton.classList.remove('loading');
+        loginButton.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

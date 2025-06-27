@@ -7,6 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MainController {
     @GetMapping("/TravalAgency")
     public String travalAgency() {
-        return "index.html";
+        return "index";
+    }
+
+    @GetMapping("/TravalAgencyAdmin")
+    public String travalAgencyAdmin() {
+        return "login";
     }
 }

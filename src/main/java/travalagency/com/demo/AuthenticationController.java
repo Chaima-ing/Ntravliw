@@ -24,10 +24,15 @@ public class AuthenticationController {
     }
 
     @GetMapping("/login")
-    public Account login(
-        @RequestParam String id,
-        @RequestParam String password
+    public String login(
+            @RequestParam String id,
+            @RequestParam String password
     ) {
-        return authService.login(id, password);
+        boolean isAuthenticated = authService.login(id, password);
+        if (isAuthenticated) {
+            return "success";
+        } else {
+            return "failure";
+        }
     }
 }

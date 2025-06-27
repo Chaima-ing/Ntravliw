@@ -30,9 +30,8 @@ public class AuthenticationService {
 }
 
 
-    public Account login(String id, String password) {
+    public boolean login(String id, String password) {
         Optional<Account> accountOptional = authRepo.findAccountByIdAndPassword(id, password);
-        Account account = accountOptional.get();
-        return account;
+        return accountOptional.isPresent();
     }
 }
