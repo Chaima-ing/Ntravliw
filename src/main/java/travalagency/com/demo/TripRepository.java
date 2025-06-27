@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TripRepository extends JpaRepository<Trip, Long>{
     @Query("SELECT t FROM Trip t WHERE t.id = :id")
-    Optional<Trip>  findTripById(@Param("id") String id);
+    Optional<Trip>  findTripById(@Param("id") Long id);
 
     @Query("SELECT t FROM Trip t ORDER BY t.id DESC")  // ترتيب العقارات حسب id_RE بشكل تنازلي
 	List<Trip> findAllTripsOrderedById_REDesc();
